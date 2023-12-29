@@ -102,7 +102,7 @@ As the name implies domain randomization attempts to replace the need to manuall
 ## Solution overview
 In short we will be walking through the following steps to create and run an object detection model on a microcontroller devkit. An updated Python environment with Visual Studio Code is recommended. A 3D geometry editor such as Blend is needed if object 3D models are not in USD-format (Universal Scene Description).
 * Installing Omniverse Code, Replicator and setting up debugging with Visual Studio Code
-* Creating a 3D stage/scene i Omniverse
+* Creating a 3D stage/scene in Omniverse
 * Working with 3D models in Blend
 * Importing 3D models in Omniverse, retaining transformations, applying materials
 * Setting metadata on objects
@@ -116,8 +116,12 @@ In short we will be walking through the following steps to create and run an obj
 ## Installing Omniverse Code, Replicator and setting up debugging with Visual Studio Code
 NVIDIA Omniverse
 * Install Omniverse from [NVIDIA](https://docs.omniverse.nvidia.com/extensions/latest/ext_replicator/getting_started.html).
-* Install Code: Open Omniverse Launcher, go to Exchange, install Code. ![NVIDIA Omniverse Code](img/omni-code.png)
-* Launch Code from NVIDIA Omniverse Launcher. ![NVIDIA Omniverse Launcher](img/omni-code-launch.png)
+* Install Code: Open Omniverse Launcher, go to Exchange, install Code. 
+
+![NVIDIA Omniverse Code](img/omni-code.png)
+* Launch Code from NVIDIA Omniverse Launcher. 
+
+![NVIDIA Omniverse Launcher](img/omni-code-launch.png)
 * Go to Window->Extensions and install Replicator
 
 ![NVIDIA Omniverse Replicator](img/replicator_exten.png)
@@ -134,7 +138,7 @@ NVIDIA Omniverse
 
 **Create stage, photo Eivind Holt**
 
-If you have a hefty GPU next to you, you might prefer to reduce the FPS limit in the viewports of Code. On my setup it defaults to 120 FPS, generating a lot of heat when the viewport is in the highest quality rendering modes. I set "UI FPS Limit" and "Present thread FPS Limit" to 60. This setting unfortunately does not persist between sessions, so I have to repeat this everytime I open my projects. 
+If you have a hefty GPU next to you, you might prefer to reduce the FPS limit in the viewports of Code. It may default to 120 FPS, generating a lot of heat when the viewport is in the highest quality rendering modes. Set "UI FPS Limit" and "Present thread FPS Limit" to 60. This setting unfortunately does not persist between sessions, so we have to repeat this everytime projects open. 
 
 ![FPS Limit](img/Code-fps-limit.png)
 
@@ -302,7 +306,7 @@ When rendering the items of interest the background items would have to be hidde
 ## Creating label file for Edge Impulse Studio
 Edge Impulse Studio supports a wide range of image labeling formats for object detection. Unfortunately the output from Replicator's BasicWriter needs to be transformed so it can be uploaded either through the web interface or via [web-API](https://docs.edgeimpulse.com/reference/ingestion-api#ingestion-api).
 
-Provided is a simple Python program, [basic_writer_to_pascal_voc.py](https://github.com/eivholt/surgery-inventory-synthetic-data/blob/main/omniverse-replicator/basic_writer_to_pascal_voc.py), that ChatGPT was kind enough to suggest. I wrote a simple prompt describing the output from Replicator and the [desired results described at EI](https://docs.edgeimpulse.com/docs/edge-impulse-studio/data-acquisition/uploader#understanding-image-dataset-annotation-formats). Run the program from shell with
+Provided is a simple Python program, [basic_writer_to_pascal_voc.py](https://github.com/eivholt/surgery-inventory-synthetic-data/blob/main/omniverse-replicator/basic_writer_to_pascal_voc.py), that ChatGPT was kind enough to suggest. A simple prompt was written describing the output from Replicator and the [desired results described at EI](https://docs.edgeimpulse.com/docs/edge-impulse-studio/data-acquisition/uploader#understanding-image-dataset-annotation-formats). Run the program from shell with
 ``` 
 python basic_writer_to_pascal_voc.py <input_folder>
 ```
@@ -314,9 +318,9 @@ or debug from Visual Studio Code by setting input folder in launch.json like thi
 This will create a file bounding_boxes.labels that contains all labels and bounding boxes per image.
 
 ## Creating an object detection project in Edge Impulse Studio and uploading dataset
-Look at the provided object detection Edge Impulse project or [follow a guide to create a new](https://docs.edgeimpulse.com/docs/edge-impulse-studio/learning-blocks/object-detection/fomo-object-detection-for-constrained-devices#how-to-get-started).
+Look at the [provided object detection Edge Impulse project](https://studio.edgeimpulse.com/public/322153/latest) or [follow a guide to create a new](https://docs.edgeimpulse.com/docs/edge-impulse-studio/learning-blocks/object-detection/fomo-object-detection-for-constrained-devices#how-to-get-started).
 
-For a project intended to detect objects with reflective surfaces a large number of images is needed for training, but the exact number depends on a lot of factors and some experimentation should be expected. It is advisable to start relatively small, say 1000 images of the objects to be detected. A number of images of random background items is also needed to produce results that will work in the real world. This project uses other surgery equipment for convenience, and they do not need to be individually labeled. Still Edege Impulse Studio will create a labeling queue for each image for which it has not received labeling data. To avoid having to click through each image, the program described will produce a bounding_boxes.labels with empty labels for items tagged with semantic class "background". The factor between images of items to detect and background noise also relies on experimentation, but 1-2% background division seems to be a good starting point.
+For a project intended to detect objects with reflective surfaces a large number of images is needed for training, but the exact number depends on a lot of factors and some experimentation should be expected. It is advisable to start relatively small, say 1000 images of the objects to be detected. For this project over 30000 images were generated, this is much more than needed. A number of images of random background items is also needed to produce results that will work in the real world. This project uses other surgery equipment for convenience, and they do not need to be individually labeled. Still Edege Impulse Studio will create a labeling queue for each image for which it has not received labeling data. To avoid having to click through each image, the program described will produce a bounding_boxes.labels with empty labels for items tagged with semantic class "background". The factor between images of items to detect and background noise also relies on experimentation, but 1-2% background division seems to be a good starting point.
 
 EI creates unique identifiers per image, so you can run multiple iterations to create and upload new datasets, even with the same file names.
 
