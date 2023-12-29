@@ -18,8 +18,8 @@ with rep.new_layer():
 	def scatter_items(items):
 		table = rep.get.prims(path_pattern='/World/SurgeryToolsArea')
 		with items as item:
-			carb.log_info("Tool: " + tool)
-			logger.info("Tool: " + tool)
+			carb.log_info("Tool: " + str(tool))
+			logger.info("Tool: " + str(tool))
 			rep.modify.pose(rotation=rep.distribution.uniform((0, 0, 0), (0, 360, 0)))
 			rep.randomizer.scatter_2d(surface_prims=table, check_for_collisions=True)
 		return items.node
