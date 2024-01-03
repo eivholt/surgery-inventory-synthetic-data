@@ -1,6 +1,6 @@
 # Wearable surgery inventory object detection sensor using Edge Impulse with synthetic training data created with NVIDIA Omniverse Replicator
 
-![](img/render1.png "Synthetic image generation")
+![](img/render2.png "Synthetic image generation")
 
 **Synthetic image generation, render Eivind Holt**
 
@@ -180,6 +180,10 @@ For the cloth based materials some of the textures from the original models were
 ![Cloth material](img/material_swab.png)
 
 **Cloth material, photo Eivind Holt**
+
+![](img/render1.png "Synthetic image generation")
+
+**Synthetic image generation**
 
 ## Setting metadata on objects
 To be able to produce images for training and include labels we can use a feature of Replicator toolbox found under menu Replicator->Semantics Schema Editor.
