@@ -17,6 +17,8 @@ Software used:
 * [Blender](https://www.blender.org/)
 * [Autodesk Fusion 360](https://www.autodesk.no/products/fusion-360/)
 
+Project [code repository](https://github.com/eivholt/surgery-inventory-synthetic-data).
+
 ## Intro
 This wearable device keeps track of instruments and materials used during surgery. This can be useful as an additional safeguard to prevent retained surgical bodies (RSB).
 
@@ -373,14 +375,15 @@ Without going into details a trained model can be compiled into an Arduino-compa
 
 **Open DIPS**
 
-## Results and future possibilities
+## Results
 The results of this project show that required training and testing data can be synthesized using 3D models, reducing manual labor in capturing images and annotation. Even more impressive is that unpredictable reflective surfaces can be detected on heavily constrained hardware by creating a large number of images.
 
 ![Chrome objects detection](img/chrome_vid.png)
 
 **Chrome objects detection, photo Eivind Holt**
 
-Theoretically a service could be developed that accepts 3D models as input and produces any number of images for training. As advances in generative diffusion models start to provide text-to-3D we may soon see even more powerful options in creating innovative object detection solutions.
+## Conclusion
+The domain of visual object detection is currently experiencing a thrilling phase of evolution, thanks to the convergence of numerous significant advancements. Envision a service capable of accepting 3D models as input and generating a diverse array of images for training purposes. With the continuous improvements in generative diffusion models, particularly in the realm of text-to-3D conversion, we are on the cusp of unlocking even more potent capabilities for creating synthetic training data. This progression is not just a technological leap; it's set to revolutionize the way we approach object detection, paving the way for a new generation of highly innovative and effective object detection solutions. The implications of these advancements are vast, opening doors to unprecedented levels of accuracy and efficiency in various applications.
 
 ![Text-to-3D](img/diagram.jpg)
 
