@@ -2,7 +2,7 @@
 
 ![](img/render2.png "Synthetic image generation")
 
-**Synthetic image generation, render Eivind Holt**
+**Synthetic image generation, 2 images pr. second, render Eivind Holt**
 
 ## Intro
 This wearable device keeps track of instruments and materials used during surgery. This can be useful as an additional safeguard to prevent Retained Surgical Bodies.
@@ -96,7 +96,7 @@ The remainder of the article answers the question whether highly reflective obje
 A crucial part of any ML-solution is the data the model is trained, tested and validated on. In the case of a visual object detection model this comes down to a large number of images of the objects to detect. In addition each object in each image needs to be labeled. Edge Impulse offers an intuitive tool for drawing boxes around the objects in question and to define labels. On large datasets manual labeling can be a daunting task, thankfully EI offers an auto-labeling tool. Other tools for managing datasets offer varying approaches for automatic labeling, for instance using large image datasets. However, often these datasets are too general and fall short for specific use cases.
 
 ### NVIDIA Omniverse Replicator
-One of the main goals of this project is to explore creating synthetic object images that come complete with labels. This is achieved by creating a 3D scene in NVIDIA Omniverse and using it's Replicator Synthetic Data Generation toolbox to create thousands of slightly varying images, a concept called domain randomization.
+One of the main goals of this project is to explore creating synthetic object images that come complete with labels. This is achieved by creating a 3D scene in NVIDIA Omniverse and using it's Replicator Synthetic Data Generation toolbox to create thousands of slightly varying images, a concept called domain randomization. With a NVIDIA RTX 3090 graphics card from 2020 it is possible to produce about 2 ray-traced images per second. 10 000 images would take about 5 hours.
 
 ## Solution overview
 In short we will be walking through the following steps to create and run an object detection model on a microcontroller devkit. An updated Python environment with Visual Studio Code is recommended. A 3D geometry editor such as Blender is needed if object 3D models are not in USD-format (Universal Scene Description).
@@ -325,7 +325,7 @@ This will create a file bounding_boxes.labels that contains all labels and bound
 ## Creating an object detection project in Edge Impulse Studio and uploading dataset
 Look at the [provided object detection Edge Impulse project](https://studio.edgeimpulse.com/public/322153/latest) or [follow a guide to create a new](https://docs.edgeimpulse.com/docs/edge-impulse-studio/learning-blocks/object-detection/fomo-object-detection-for-constrained-devices#how-to-get-started).
 
-For a project intended to detect objects with reflective surfaces a large number of images is needed for training, but the exact number depends on a lot of factors and some experimentation should be expected. It is advisable to start relatively small, say 1000 images of the objects to be detected. For this project over 30000 images were generated, this is much more than needed. A number of images of random background items are also needed to produce results that will work in the real world. This project uses other surgery equipment for convenience, they do not need to be individually labeled. Still Edge Impulse Studio will create a labeling queue for each image for which it has not received labeling data. To avoid having to click through each image to confirm they contain no labels, the program described will produce a bounding_boxes.labels with empty labels for items tagged with semantic class "background". The factor between images of items to detect and background noise also relies on experimentation, but 1-2% background ratio seems to be a good starting point.
+For a project intended to detect objects with reflective surfaces a large number of images is needed for training, but the exact number depends on a lot of factors and some experimentation should be expected. It is advisable to start relatively small, say 1000 images of the objects to be detected. For this project over 30 000 images were generated, this is much more than needed. A number of images of random background items are also needed to produce results that will work in the real world. This project uses other surgery equipment for convenience, they do not need to be individually labeled. Still Edge Impulse Studio will create a labeling queue for each image for which it has not received labeling data. To avoid having to click through each image to confirm they contain no labels, the program described will produce a bounding_boxes.labels with empty labels for items tagged with semantic class "background". The factor between images of items to detect and background noise also relies on experimentation, but 1-2% background ratio seems to be a good starting point.
 
 EI creates unique identifiers per image, so you can run multiple iterations to create and upload new datasets, even with the same file names. Just upload all the images from a batch together with the bounding_boxes.labels file.
 
